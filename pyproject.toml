@@ -1,0 +1,8 @@
+[project]
+name = "layout-observer"
+version = "1.0.0"
+requires-python = ">=3.11"
+dependencies = []
+
+[tool.unittest]
+start-directory = "tests"
