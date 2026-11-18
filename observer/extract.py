@@ -2,6 +2,8 @@ from html.parser import HTMLParser
 
 
 class LegacyArticle(HTMLParser):
+    """Original low-level parser kept for the legacy single-rule entry point."""
+
     def __init__(self):
         super().__init__()
         self.fields = {}
@@ -29,6 +31,8 @@ class LegacyArticle(HTMLParser):
 
 
 class Extractor:
+    """Legacy ``data-field`` parser; new code should use :mod:`observer.rules`."""
+
     def parse(self, page):
         if page['status'] != 200 or not page['content_type'].startswith('text/html'):
             raise ValueError('not an HTML success response')

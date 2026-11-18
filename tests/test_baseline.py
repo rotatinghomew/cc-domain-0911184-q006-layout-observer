@@ -1,15 +1,16 @@
 import tempfile
 import unittest
 from pathlib import Path
+
 from observer.archive import PageArchive
 from observer.catalog import Catalog
 from observer.extract import Extractor
 from observer.ingest import collect
-from observer.site import PAGES, serve
 from observer.review import Review
+from observer.site import PAGES, serve
 
 
-class ObserverTests(unittest.TestCase):
+class BaselineTests(unittest.TestCase):
     def test_review_binds_fields_to_the_actual_page(self):
         archive = PageArchive(':memory:')
         page_id = archive.capture('http://local/a', 1, 200, 'text/html', PAGES['/shell'].encode())
@@ -60,3 +61,7 @@ class ObserverTests(unittest.TestCase):
     def test_unknown_evidence_is_not_fabricated(self):
         with self.assertRaises(KeyError):
             PageArchive(':memory:').get(90)
+
+
+if __name__ == '__main__':
+    unittest.main()

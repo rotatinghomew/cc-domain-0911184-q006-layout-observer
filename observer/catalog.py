@@ -3,6 +3,12 @@ import sqlite3
 
 
 class Catalog:
+    """Published structured entries, newest observation per URL wins.
+
+    Equal observations never replace an existing entry, so replaying an
+    archived page cannot flip an item back to an older rule.
+    """
+
     def __init__(self, path):
         self.db = sqlite3.connect(path)
         self.db.execute('CREATE TABLE IF NOT EXISTS articles(url TEXT PRIMARY KEY, observed INTEGER, payload TEXT)')
@@ -13,6 +19,8 @@ class Catalog:
             if old is None or article['observed'] > old[0]:
                 self.db.execute('INSERT OR REPLACE INTO articles VALUES(?,?,?)',
                                 (article['url'], article['observed'], json.dumps(article, ensure_ascii=False)))
+                return True
+            return False
 
     def rows(self):
         return [json.loads(row[0]) for row in self.db.execute('SELECT payload FROM articles ORDER BY url')]

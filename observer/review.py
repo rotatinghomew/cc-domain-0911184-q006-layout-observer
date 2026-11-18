@@ -1,3 +1,10 @@
+"""Single-page review.
+
+``Review`` checks that a parsed article refers to the page it came from and
+that the required fields are non-empty.  This is a per-page check only: it
+is not a human confirmation and says nothing about other layouts.
+"""
+
 REQUIRED = ('title', 'author', 'license', 'published')
 
 
